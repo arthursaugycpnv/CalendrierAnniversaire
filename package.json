@@ -1,0 +1,35 @@
+{
+  "name": "calendrieranniversaire",
+  "version": "1.0.0",
+  "description": "Backend pour un calendrier universel d'anniversaires",
+  "homepage": "https://github.com/arthursaugycpnv/CalendrierAnniversaire#readme",
+  "bugs": {
+    "url": "https://github.com/arthursaugycpnv/CalendrierAnniversaire/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthursaugycpnv/CalendrierAnniversaire.git"
+  },
+  "license": "ISC",
+  "author": "arthursaugy",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run",
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.24.6",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "supertest": "^7.3.2",
+    "vitest": "^5.1.0"
+  }
+}
