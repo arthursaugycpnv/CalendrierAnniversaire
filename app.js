@@ -1,6 +1,8 @@
 // Import librairie express
 import express from 'express';
 
+import birthdaysRouter from './routes/birthdays.js';
+
 // Création du serveur web en utilisant express
 const app = express();
 const port = 3000;
@@ -10,6 +12,8 @@ app.use(express.json())
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
+app.use('/api/birthdays', birthdaysRouter)
 
 // Lancement serveur + Ouverture d'écoute sur le port (3000)
 app.listen(port, () => {
