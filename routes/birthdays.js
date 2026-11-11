@@ -55,4 +55,29 @@ birthdaysRouter.get('/me', async(req, res) => {
     }
 })
 
+birthdaysRouter.post('', async(req, res) => {
+    try {
+        const name = req.body.name
+        const month = req.body.month
+        const day = req.body.day
+
+        let type = req.body.type
+        let is_anonymous = req.body.is_anonymous
+
+        // Traitement valeur par défaut
+        if (type(type) === undefined) type = "person"
+        if (type(is_anonymous) === undefined) is_anonymous = 0
+
+        if (!name || !month || !day) {
+            return res.status(400).json({ error: 'Champs obligatoires : name, type, month, day' })
+        }
+
+        // TODO : Récupérer l'id du user via auth
+        const user_id = 1 // seulement pour test
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: "Une erreur interne est survenue."})
+    }
+})
+
 export default birthdaysRouter
