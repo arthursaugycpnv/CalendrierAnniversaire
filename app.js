@@ -21,7 +21,4 @@ app.get('/', (req, res) => {
 
 app.use('/api/birthdays', birthdaysRouter)
 
-// Lancement serveur + Ouverture d'écoute sur le port (3000)
-app.listen(port, () => {
-  console.log(`CalendrierAnniversaire listening on port ${port}`);
-});
+export default app
