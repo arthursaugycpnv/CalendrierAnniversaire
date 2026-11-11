@@ -9,7 +9,7 @@ const db = {
         const [rows] = await pool.execute("SELECT * FROM birthdays")
         return rows
     }, 
-    findByUsername: async (user_id) => {
+    findByUserId: async (user_id) => {
         const [rows] = await pool.execute("SELECT * FROM birthdays WHERE users_id=?", [user_id])
         return rows
     }
