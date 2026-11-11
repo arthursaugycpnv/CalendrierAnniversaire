@@ -8,6 +8,10 @@ const db = {
     findAll: async () => {
         const [rows] = await pool.execute("SELECT * FROM birthdays")
         return rows
+    }, 
+    findByUsername: async (user_id) => {
+        const [rows] = await pool.execute("SELECT * FROM birthdays WHERE users_id=?", [user_id])
+        return rows
     }
 }
 
