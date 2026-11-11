@@ -2,7 +2,7 @@
 
 // Requêtes sql pour anniversaire
 
-import pool from "./db-connection"
+import pool from "./db-connection.js"
 
 const db = {
     findAll: async () => {
