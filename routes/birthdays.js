@@ -91,6 +91,45 @@ birthdaysRouter.post('', async (req, res) => {
     }
 })
 
+birthdaysRouter.put('/:id', async (req, res) => {
+    try {
+        const id = Number(req.params.id)
 
+        if (!Number.isInteger(id) || id <= 0) {
+            return res.status(400).json({ error: 'id invalide' })
+        }
+
+        const name = req.body.name
+        const month = req.body.month
+        const day = req.body.day
+
+        let type = req.body.type
+        let is_anonymous = req.body.is_anonymous
+        let locations_id = req.body.locations_id
+
+        // Traitement valeur par défaut
+        if (typeof type === "undefined") type = "person"
+        if (typeof is_anonymous === "undefined") is_anonymous = 0
+        if (typeof locations_id === "undefined") locations_id = null
+
+        if (!name || !month || !day) {
+            return res.status(400).json({ error: 'Champs obligatoires : name, month, day' })
+        }
+
+        // TODO : Récupérer l'id du user via auth
+        const user_id = 1 // seulement pour test
+
+        const { sql_answer, birthday } = await db.updateBirthday(id, name, type, is_anonymous, user_id, locations_id, month, day)
+
+        if (sql_answer) {
+            return res.json({ birthday: birthday })
+        } else {
+            return res.status(404).json({ error: 'Anniversaire introuvable' })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Une erreur interne est survenue." })
+    }
+})
 
 export default birthdaysRouter
