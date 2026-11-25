@@ -2,7 +2,8 @@
 import express from 'express';
 
 import swaggerUi from 'swagger-ui-express';
-import {openApiSpecification} from './swagger.js'
+import { openApiSpecification } from './swagger.js'
+import auth from "../middlewares/auth.js";
 
 import birthdaysRouter from './routes/birthdays.js';
 
@@ -13,12 +14,13 @@ const port = 3000;
 app.use(express.json())
 
 // doc swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiSpecification, {explorer :true}));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiSpecification, { explorer: true }));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.use('/api/birthdays', birthdaysRouter)
+// TODO : A décider si tout le monde peut avoir accés a une liste universelle
+app.use('/api/birthdays', auth, birthdaysRouter)
 
 export default app

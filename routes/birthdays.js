@@ -4,6 +4,7 @@
 import { Router } from "express"
 
 import db from "../db/db-birthdays.js";
+import auth from "../middlewares/auth.js";
 
 const birthdaysRouter = Router()
 
