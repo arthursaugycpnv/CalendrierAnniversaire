@@ -68,16 +68,16 @@ birthdaysRouter.post('', async (req, res) => {
         // Traitement valeur par défaut
         if (typeof type === "undefined") type = "person"
         if (typeof is_anonymous === "undefined") is_anonymous = 0
-        if (typeof typelocations_id === "undefined") locations_id = null
+        if (typeof locations_id === "undefined") locations_id = null
 
         if (!name || !month || !day) {
-            return res.status(400).json({ error: 'Champs obligatoires : name, type, month, day' })
+            return res.status(400).json({ error: 'Champs obligatoires : name, month, day' })
         }
 
         // TODO : Récupérer l'id du user via auth
         const user_id = 1 // seulement pour test
 
-        const { sql_answer, birthday } = db.createBirthday(name, type, is_anonymous, user_id, locations_id, month, day)
+        const { sql_answer, birthday } = await db.createBirthday(name, type, is_anonymous, user_id, locations_id, month, day)
 
         if (sql_answer) {
             return res.json({ birthday: birthday })
@@ -90,5 +90,7 @@ birthdaysRouter.post('', async (req, res) => {
         res.status(500).json({ error: "Une erreur interne est survenue." })
     }
 })
+
+
 
 export default birthdaysRouter
