@@ -3,7 +3,7 @@ import express from 'express';
 
 import swaggerUi from 'swagger-ui-express';
 import { openApiSpecification } from './swagger.js'
-import auth from "../middlewares/auth.js";
+import auth from "./middlewares/auth.js";
 
 import birthdaysRouter from './routes/birthdays.js';
 
