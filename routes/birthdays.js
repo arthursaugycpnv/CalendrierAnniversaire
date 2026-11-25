@@ -28,34 +28,34 @@ const birthdaysRouter = Router()
  *         description: system exception describing the error.
  */
 
-birthdaysRouter.get('', async(req, res) => {
+birthdaysRouter.get('', async (req, res) => {
     try {
 
         const birthdays = await db.findAll()
 
-        return res.json({birthdays})
+        return res.json({ birthdays })
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Une erreur interne est survenue."})
+        res.status(500).json({ error: "Une erreur interne est survenue." })
     }
 })
 
 // TODO : Authentification + récupérer l'id du user
-birthdaysRouter.get('/me', async(req, res) => {
+birthdaysRouter.get('/me', async (req, res) => {
     try {
         // TODO : Récupérer l'id du user via auth
         const user_id = 1 // seulement pour test
 
         const birthdays = await db.findByUserId(user_id)
 
-        return res.json({birthdays})
+        return res.json({ birthdays })
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Une erreur interne est survenue."})
+        res.status(500).json({ error: "Une erreur interne est survenue." })
     }
 })
 
-birthdaysRouter.post('', async(req, res) => {
+birthdaysRouter.post('', async (req, res) => {
     try {
         const name = req.body.name
         const month = req.body.month
@@ -63,10 +63,12 @@ birthdaysRouter.post('', async(req, res) => {
 
         let type = req.body.type
         let is_anonymous = req.body.is_anonymous
+        let locations_id = req.body.locations_id
 
         // Traitement valeur par défaut
-        if (type(type) === undefined) type = "person"
-        if (type(is_anonymous) === undefined) is_anonymous = 0
+        if (typeof type === "undefined") type = "person"
+        if (typeof is_anonymous === "undefined") is_anonymous = 0
+        if (typeof typelocations_id === "undefined") locations_id = null
 
         if (!name || !month || !day) {
             return res.status(400).json({ error: 'Champs obligatoires : name, type, month, day' })
@@ -74,9 +76,18 @@ birthdaysRouter.post('', async(req, res) => {
 
         // TODO : Récupérer l'id du user via auth
         const user_id = 1 // seulement pour test
+
+        const { sql_answer, birthday } = db.createBirthday(name, type, is_anonymous, user_id, locations_id, month, day)
+
+        if (sql_answer) {
+            return res.json({ birthday: birthday })
+        } else {
+            // TODO: Spécifier l'erreur
+            return res.status(400).json({ error: 'Erreur SQL' })
+        }
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Une erreur interne est survenue."})
+        res.status(500).json({ error: "Une erreur interne est survenue." })
     }
 })
 
