@@ -24,6 +24,14 @@ const db = {
         )
         // TODO: Verifier qu'une ligne a bien été ajoutée
         return { sql_answer: 1, birthday: { id, name, type, is_anonymous, user_id, locations_id, month, day } }
+    },
+    deleteBirthday: async (id, user_id) => {
+        const [result] = await pool.execute(
+            'DELETE FROM birthdays WHERE id = ? AND user_id = ?',
+            [id, user_id]
+        )
+        // Vérifier qu'une ligne a bien été modifiée
+        return { sql_answer: 1 }
     }
 }
 

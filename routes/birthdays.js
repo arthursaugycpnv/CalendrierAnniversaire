@@ -132,4 +132,28 @@ birthdaysRouter.put('/:id', async (req, res) => {
     }
 })
 
+birthdaysRouter.delete('/:id', async (req, res) => {
+    try {
+        const id = Number(req.params.id)
+
+        if (!Number.isInteger(id) || id <= 0) {
+            return res.status(400).json({ error: 'id invalide' })
+        }
+
+        // TODO : Récupérer l'id du user via auth
+        const user_id = 1 // seulement pour test
+
+        const { sql_answer } = await db.deleteBirthday(id, user_id)
+
+        if (sql_answer) {
+            return res.status(204).json({ message: `L'anniversaire ${id} a bien été supprimé` })
+        } else {
+            return res.status(404).json({ error: 'Anniversaire introuvable' })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Une erreur interne est survenue." })
+    }
+})
+
 export default birthdaysRouter
