@@ -74,6 +74,14 @@ birthdaysRouter.post('', async (req, res) => {
             return res.status(400).json({ error: 'Champs obligatoires : name, month, day' })
         }
 
+        if (!['person', 'event'].includes(type)) {
+            return res.status(400).json({ error: "type doit valoir 'person' ou 'event'" })
+        }
+
+        if (typeof name !== 'string' || name.length > 45) {
+            return res.status(400).json({ error: 'name invalide (45 caractères max)' })
+        }
+
         // TODO : Récupérer l'id du user via auth
         const user_id = 1 // seulement pour test
 
