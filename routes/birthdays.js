@@ -41,11 +41,9 @@ birthdaysRouter.get('', async (req, res) => {
     }
 })
 
-// TODO : Authentification + récupérer l'id du user
 birthdaysRouter.get('/me', async (req, res) => {
     try {
-        // TODO : Récupérer l'id du user via auth
-        const user_id = 1 // seulement pour test
+        const user_id = req.auth.userId
 
         const birthdays = await db.findByUserId(user_id)
 
@@ -83,8 +81,7 @@ birthdaysRouter.post('', async (req, res) => {
             return res.status(400).json({ error: 'name invalide (45 caractères max)' })
         }
 
-        // TODO : Récupérer l'id du user via auth
-        const user_id = 1 // seulement pour test
+        const user_id = req.auth.userId
 
         const { sql_answer, birthday } = await db.createBirthday(name, type, is_anonymous, user_id, locations_id, month, day)
 
@@ -134,8 +131,7 @@ birthdaysRouter.put('/:id', async (req, res) => {
             return res.status(400).json({ error: 'name invalide (45 caractères max)' })
         }
 
-        // TODO : Récupérer l'id du user via auth
-        const user_id = 1 // seulement pour test
+        const user_id = req.auth.userId
 
         const { sql_answer, birthday } = await db.updateBirthday(id, name, type, is_anonymous, user_id, locations_id, month, day)
 
@@ -158,10 +154,9 @@ birthdaysRouter.delete('/:id', async (req, res) => {
             return res.status(400).json({ error: 'id invalide' })
         }
 
-        // TODO : Récupérer l'id du user via auth
-        const user_id = 1 // seulement pour test
+        const user_id = req.auth.userId
 
-        const { sql_answer } = await db.deleteBirthday(id)
+        const { sql_answer } = await db.deleteBirthday(id, user_id)
 
         if (sql_answer) {
             return res.status(200).json({ message: `L'anniversaire ${id} a bien été supprimé` })

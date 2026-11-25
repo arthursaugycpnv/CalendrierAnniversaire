@@ -24,8 +24,8 @@ const db = {
         const [rows] = await pool.execute("UPDATE birthdays SET name = ?, type = ?, is_anonymous = ?, locations_id = ?, dates_month = ?, dates_day = ? WHERE id = ?", [name, type, is_anonymous, user_id, locations_id, month, day, id])
         return { sql_answer: rows.affectedRows === 1, birthday: { id, name, type, is_anonymous, user_id, locations_id, month, day } }
     },
-    deleteBirthday: async (id) => {
-        const [rows] = await pool.execute("DELETE FROM birthdays WHERE id = ?", [id])
+    deleteBirthday: async (id, user_id) => {
+        const [rows] = await pool.execute("DELETE FROM birthdays WHERE id = ? AND users_id = ?", [id, user_id])
         // Vérifier qu'une ligne a bien été modifiée
         return { sql_answer: rows.affectedRows === 1 }
     }
