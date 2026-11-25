@@ -86,6 +86,7 @@ birthdaysRouter.post('', async (req, res) => {
             return res.status(400).json({ error: 'Erreur SQL' })
         }
     } catch (error) {
+        // TODO : Si date entré pas dans tables date erreur 500 au lieu de erreur 400 !
         console.log(error);
         res.status(500).json({ error: "Une erreur interne est survenue." })
     }
@@ -143,10 +144,10 @@ birthdaysRouter.delete('/:id', async (req, res) => {
         // TODO : Récupérer l'id du user via auth
         const user_id = 1 // seulement pour test
 
-        const { sql_answer } = await db.deleteBirthday(id, user_id)
+        const { sql_answer } = await db.deleteBirthday(id)
 
         if (sql_answer) {
-            return res.status(204).json({ message: `L'anniversaire ${id} a bien été supprimé` })
+            return res.status(200).json({ message: `L'anniversaire ${id} a bien été supprimé` })
         } else {
             return res.status(404).json({ error: 'Anniversaire introuvable' })
         }

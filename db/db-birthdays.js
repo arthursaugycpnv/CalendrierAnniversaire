@@ -14,22 +14,20 @@ const db = {
         return rows
     },
     createBirthday: async (name, type, is_anonymous, users_id, locations_id, dates_month, dates_day) => {
-        const [rows] = await pool.execute("INSERT INTO birthdays(name, type, is_anonymous, users_id, locations_id, dates_month, dates_day VALUES (?, ?, ?, ?, ?, ?, ?", [name, type, is_anonymous, users_id, locations_id, dates_month, dates_day])
+        // TODO: Vérifier si check aussi user_id
+        const [rows] = await pool.execute("INSERT INTO birthdays(name, type, is_anonymous, users_id, locations_id, dates_month, dates_day) VALUES (?, ?, ?, ?, ?, ?, ?)", [name, type, is_anonymous, users_id, locations_id, dates_month, dates_day])
         // TODO: Verifier qu'une ligne a bien été ajoutée
-        return { sql_answer: 1, birthday: { id, name, type, is_anonymous, user_id, locations_id, month, day } }
+        // TODO: Renvoyer toute la ligne
+        return { sql_answer: 1, birthday: { name, type, is_anonymous, locations_id, dates_month, dates_day } }
     },
     updateBirthday: async (id, name, type, is_anonymous, user_id, locations_id, month, day) => {
         const [result] = await pool.execute(
-            `UPDATE birthdays SET name = ?, type = ?, is_anonymous = ?, locations_id = ?, month = ?, day = ? WHERE id = ? AND user_id = ?`, [name, type, is_anonymous, locations_id, month, day, id, user_id]
-        )
+            "UPDATE birthdays SET name = ?, type = ?, is_anonymous = ?, users_id = ?, locations_id = ?, dates_month = ?, dates_day = ? WHERE id = ?", [name, type, is_anonymous, user_id, locations_id, month, day, id])
         // TODO: Verifier qu'une ligne a bien été ajoutée
         return { sql_answer: 1, birthday: { id, name, type, is_anonymous, user_id, locations_id, month, day } }
     },
-    deleteBirthday: async (id, user_id) => {
-        const [result] = await pool.execute(
-            'DELETE FROM birthdays WHERE id = ? AND user_id = ?',
-            [id, user_id]
-        )
+    deleteBirthday: async (id) => {
+        const [result] = await pool.execute("DELETE FROM birthdays WHERE id = ?", [id])
         // Vérifier qu'une ligne a bien été modifiée
         return { sql_answer: 1 }
     }
