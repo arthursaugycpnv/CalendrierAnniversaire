@@ -21,7 +21,7 @@ const db = {
     },
     updateBirthday: async (id, name, type, is_anonymous, user_id, locations_id, month, day) => {
         // TODO: Vérifier si check aussi user_id
-        const [rows] = await pool.execute("UPDATE birthdays SET name = ?, type = ?, is_anonymous = ?, user_id = ?, locations_id = ?, dates_month = ?, dates_day = ? WHERE id = ?", [name, type, is_anonymous, user_id, locations_id, month, day, id])
+        const [rows] = await pool.execute("UPDATE birthdays SET name = ?, type = ?, is_anonymous = ?, locations_id = ?, dates_month = ?, dates_day = ? WHERE id = ? AND users_id = ?", [name, type, is_anonymous, locations_id, month, day, id, user_id,])
         return { sql_answer: rows.affectedRows === 1, birthday: { id, name, type, is_anonymous, user_id, locations_id, month, day } }
     },
     deleteBirthday: async (id, user_id) => {
